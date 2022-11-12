@@ -8,9 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		D9DA2748291FF5950046D4D8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9DA2747291FF5950046D4D8 /* AppDelegate.swift */; };
-		D9DA274A291FF5950046D4D8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9DA2749291FF5950046D4D8 /* SceneDelegate.swift */; };
-		D9DA274C291FF5950046D4D8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9DA274B291FF5950046D4D8 /* ViewController.swift */; };
-		D9DA274F291FF5950046D4D8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D9DA274D291FF5950046D4D8 /* Main.storyboard */; };
+		D9DA274C291FF5950046D4D8 /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9DA274B291FF5950046D4D8 /* UserViewController.swift */; };
 		D9DA2752291FF5950046D4D8 /* UserInfo_CoreData_MVP.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D9DA2750291FF5950046D4D8 /* UserInfo_CoreData_MVP.xcdatamodeld */; };
 		D9DA2754291FF5960046D4D8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D9DA2753291FF5960046D4D8 /* Assets.xcassets */; };
 		D9DA2757291FF5960046D4D8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D9DA2755291FF5960046D4D8 /* LaunchScreen.storyboard */; };
@@ -19,9 +17,7 @@
 /* Begin PBXFileReference section */
 		D9DA2744291FF5950046D4D8 /* UserInfo+CoreData+MVP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "UserInfo+CoreData+MVP.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9DA2747291FF5950046D4D8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		D9DA2749291FF5950046D4D8 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		D9DA274B291FF5950046D4D8 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		D9DA274E291FF5950046D4D8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		D9DA274B291FF5950046D4D8 /* UserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
 		D9DA2751291FF5950046D4D8 /* UserInfo_CoreData_MVP.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = UserInfo_CoreData_MVP.xcdatamodel; sourceTree = "<group>"; };
 		D9DA2753291FF5960046D4D8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D9DA2756291FF5960046D4D8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -59,9 +55,7 @@
 			isa = PBXGroup;
 			children = (
 				D9DA2747291FF5950046D4D8 /* AppDelegate.swift */,
-				D9DA2749291FF5950046D4D8 /* SceneDelegate.swift */,
-				D9DA274B291FF5950046D4D8 /* ViewController.swift */,
-				D9DA274D291FF5950046D4D8 /* Main.storyboard */,
+				D9DA274B291FF5950046D4D8 /* UserViewController.swift */,
 				D9DA2753291FF5960046D4D8 /* Assets.xcassets */,
 				D9DA2755291FF5960046D4D8 /* LaunchScreen.storyboard */,
 				D9DA2758291FF5960046D4D8 /* Info.plist */,
@@ -130,7 +124,6 @@
 			files = (
 				D9DA2757291FF5960046D4D8 /* LaunchScreen.storyboard in Resources */,
 				D9DA2754291FF5960046D4D8 /* Assets.xcassets in Resources */,
-				D9DA274F291FF5950046D4D8 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -141,24 +134,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D9DA274C291FF5950046D4D8 /* ViewController.swift in Sources */,
+				D9DA274C291FF5950046D4D8 /* UserViewController.swift in Sources */,
 				D9DA2752291FF5950046D4D8 /* UserInfo_CoreData_MVP.xcdatamodeld in Sources */,
 				D9DA2748291FF5950046D4D8 /* AppDelegate.swift in Sources */,
-				D9DA274A291FF5950046D4D8 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		D9DA274D291FF5950046D4D8 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				D9DA274E291FF5950046D4D8 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		D9DA2755291FF5960046D4D8 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -296,7 +280,7 @@
 				INFOPLIST_FILE = "UserInfo+CoreData+MVP/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -324,7 +308,7 @@
 				INFOPLIST_FILE = "UserInfo+CoreData+MVP/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
