@@ -17,6 +17,15 @@ class UserViewController: UIViewController {
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
+
+    private lazy var pressButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .systemBlue
+        button.setTitle("Press", for: .normal)
+        button.layer.cornerRadius = 10
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,6 +43,7 @@ class UserViewController: UIViewController {
 
     private func setupHierarchy() {
         view.addSubview(userTextField)
+        view.addSubview(pressButton)
     }
 
     private func setupLayout() {
@@ -41,7 +51,12 @@ class UserViewController: UIViewController {
             userTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             userTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             userTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            userTextField.heightAnchor.constraint(equalToConstant: 50)
+            userTextField.heightAnchor.constraint(equalToConstant: 50),
+
+            pressButton.topAnchor.constraint(equalTo: userTextField.bottomAnchor, constant: 20),
+            pressButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            pressButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            pressButton.heightAnchor.constraint(equalToConstant: 50),
         ])
     }
 }
