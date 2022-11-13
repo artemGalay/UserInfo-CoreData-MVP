@@ -9,11 +9,14 @@ import UIKit
 
 class UserViewController: UIViewController {
 
+    private var users: [String] = []
+
     private lazy var userTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "Print your name here"
         textField.backgroundColor = .systemGray6
         textField.layer.cornerRadius = 10
+        textField.borderStyle = .roundedRect
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
@@ -23,8 +26,18 @@ class UserViewController: UIViewController {
         button.backgroundColor = .systemBlue
         button.setTitle("Press", for: .normal)
         button.layer.cornerRadius = 10
+        button.addTarget(self, action: #selector(pressButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
+    }()
+
+    private lazy var usersTableView: UITableView = {
+        let tableView = UITableView(frame: CGRect.zero, style: .insetGrouped)
+        tableView.backgroundColor = .systemGray6
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.dataSource = self
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        return tableView
     }()
     
     override func viewDidLoad() {
@@ -44,6 +57,7 @@ class UserViewController: UIViewController {
     private func setupHierarchy() {
         view.addSubview(userTextField)
         view.addSubview(pressButton)
+        view.addSubview(usersTableView)
     }
 
     private func setupLayout() {
@@ -57,6 +71,48 @@ class UserViewController: UIViewController {
             pressButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             pressButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             pressButton.heightAnchor.constraint(equalToConstant: 50),
+
+            usersTableView.topAnchor.constraint(equalTo: pressButton.bottomAnchor, constant: 20),
+            usersTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            usersTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            usersTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+    }
+
+    @objc private func pressButtonTapped() {
+        if userTextField.text != "" {
+            users.append(userTextField.text ?? "")
+        } else {
+            let alert = UIAlertController(
+                title: "Nothing was written",
+                message: "Please enter the name",
+                preferredStyle: .alert)
+
+            alert.addAction(UIAlertAction(title: "OK", style: .cancel))
+            self.present(alert, animated: true)
+        }
+        usersTableView.reloadData()
+    }
+}
+
+extension UserViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        users.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        var cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        cell.accessoryType = .disclosureIndicator
+        cell.textLabel?.text = users[indexPath.row]
+        return cell
+    }
+
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            tableView.beginUpdates()
+            users.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            tableView.endUpdates()
+        }
     }
 }
