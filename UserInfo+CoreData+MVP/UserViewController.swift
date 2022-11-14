@@ -9,7 +9,7 @@ import UIKit
 
 class UserViewController: UIViewController {
 
-    private var users: [String] = []
+    var users: [String] = []
 
     private lazy var userTextField: UITextField = {
         let textField = UITextField()
