@@ -38,10 +38,22 @@ class DetailViewController: UIViewController {
         return textField
     }()
 
+    private lazy var dateOfBirthPicker: UIDatePicker = {
+        let datePicker = UIDatePicker()
+        datePicker.datePickerMode = .date
+//        datePicker.isEnabled = false
+        datePicker.translatesAutoresizingMaskIntoConstraints = false
+        return datePicker
+    }()
+
     private lazy var userNameStackView = createStackView(arrangeSubviews: [userIcon, userTextField],
                                                          axis: .horizontal,
                                                          spacing: 10,
                                                          distribution: .fillProportionally)
+    private lazy var dateOfBirthStackView = createStackView(arrangeSubviews: [dateOfBirthIcon, dateOfBirthPicker],
+                                                            axis: .horizontal,
+                                                            spacing: 0,
+                                                            distribution: .fillProportionally)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,6 +73,7 @@ class DetailViewController: UIViewController {
     private func setupHierarchy() {
         view.addSubview(photoUser)
         view.addSubview(userNameStackView)
+        view.addSubview(dateOfBirthStackView)
     }
 
     private func setupLayout() {
@@ -71,9 +84,14 @@ class DetailViewController: UIViewController {
             photoUser.heightAnchor.constraint(equalToConstant: 200),
 
             userNameStackView.topAnchor.constraint(equalTo: photoUser.bottomAnchor, constant: 20),
-            userNameStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            userNameStackView.widthAnchor.constraint(equalToConstant: 300),
-            userNameStackView.heightAnchor.constraint(equalToConstant: 50)
+            userNameStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
+            userNameStackView.widthAnchor.constraint(equalToConstant: 250),
+            userNameStackView.heightAnchor.constraint(equalToConstant: 40),
+
+            dateOfBirthStackView.topAnchor.constraint(equalTo: userNameStackView.bottomAnchor, constant: 20),
+            dateOfBirthStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
+            dateOfBirthStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
+            dateOfBirthStackView.heightAnchor.constraint(equalToConstant: 40)
         ])
     }
 
