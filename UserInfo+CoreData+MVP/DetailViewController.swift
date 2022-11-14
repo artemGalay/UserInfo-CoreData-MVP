@@ -31,6 +31,18 @@ class DetailViewController: UIViewController {
     private lazy var dateOfBirthIcon = createIcon(systemName: "calendar")
     private lazy var genderIcon = createIcon(systemName: "person.2.circle")
 
+    private lazy var userTextField: UITextField = {
+        let textField = UITextField()
+        textField.placeholder = "FullName"
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        return textField
+    }()
+
+    private lazy var userNameStackView = createStackView(arrangeSubviews: [userIcon, userTextField],
+                                                         axis: .horizontal,
+                                                         spacing: 10,
+                                                         distribution: .fillProportionally)
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -48,6 +60,7 @@ class DetailViewController: UIViewController {
 
     private func setupHierarchy() {
         view.addSubview(photoUser)
+        view.addSubview(userNameStackView)
     }
 
     private func setupLayout() {
@@ -56,6 +69,11 @@ class DetailViewController: UIViewController {
             photoUser.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             photoUser.widthAnchor.constraint(equalToConstant: 200),
             photoUser.heightAnchor.constraint(equalToConstant: 200),
+
+            userNameStackView.topAnchor.constraint(equalTo: photoUser.bottomAnchor, constant: 20),
+            userNameStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            userNameStackView.widthAnchor.constraint(equalToConstant: 300),
+            userNameStackView.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
 
