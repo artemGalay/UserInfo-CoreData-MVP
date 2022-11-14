@@ -34,7 +34,6 @@ class DetailViewController: UIViewController {
     private lazy var userTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "FullName"
-        textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
 
@@ -42,8 +41,27 @@ class DetailViewController: UIViewController {
         let datePicker = UIDatePicker()
         datePicker.datePickerMode = .date
 //        datePicker.isEnabled = false
-        datePicker.translatesAutoresizingMaskIntoConstraints = false
         return datePicker
+    }()
+
+    private lazy var maleButoon: UIButton = {
+        let button = UIButton()
+        button.setTitle("Male", for: .normal)
+        button.setTitleColor(.systemBlue, for: .normal)
+        button.backgroundColor = .systemGray6
+        button.layer.cornerRadius = 12
+        button.addTarget(self, action: #selector(maleButtonTapped), for: .touchUpInside)
+        return button
+    }()
+
+    private lazy var femaleButoon: UIButton = {
+        let button = UIButton()
+        button.setTitle("Female", for: .normal)
+        button.setTitleColor(.systemRed, for: .normal)
+        button.backgroundColor = .systemGray6
+        button.layer.cornerRadius = 12
+        button.addTarget(self, action: #selector(femaleButtonTapped), for: .touchUpInside)
+        return button
     }()
 
     private lazy var userNameStackView = createStackView(arrangeSubviews: [userIcon, userTextField],
@@ -54,6 +72,11 @@ class DetailViewController: UIViewController {
                                                             axis: .horizontal,
                                                             spacing: 0,
                                                             distribution: .fillProportionally)
+
+    private lazy var genderStackView = createStackView(arrangeSubviews: [genderIcon, maleButoon, femaleButoon],
+                                                       axis: .horizontal,
+                                                       spacing: 110,
+                                                       distribution: .fillEqually)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,7 +89,7 @@ class DetailViewController: UIViewController {
     private func setupNavigationBar() {
         navigationController?.navigationBar.tintColor = .systemGray
         let image = UIImage(systemName: "arrow.left")
-        navigationItem.setLeftBarButton(UIBarButtonItem(image: image, style: .done, target: self, action: nil), animated: true)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(backButtonTapped))
         navigationItem.setRightBarButton(UIBarButtonItem(customView: editButton), animated: true)
     }
 
@@ -74,6 +97,7 @@ class DetailViewController: UIViewController {
         view.addSubview(photoUser)
         view.addSubview(userNameStackView)
         view.addSubview(dateOfBirthStackView)
+        view.addSubview(genderStackView)
     }
 
     private func setupLayout() {
@@ -91,11 +115,30 @@ class DetailViewController: UIViewController {
             dateOfBirthStackView.topAnchor.constraint(equalTo: userNameStackView.bottomAnchor, constant: 20),
             dateOfBirthStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
             dateOfBirthStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
-            dateOfBirthStackView.heightAnchor.constraint(equalToConstant: 40)
+            dateOfBirthStackView.heightAnchor.constraint(equalToConstant: 40),
+
+            genderStackView.topAnchor.constraint(equalTo: dateOfBirthStackView.bottomAnchor, constant: 20),
+            genderStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
+            genderStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
+            genderStackView.heightAnchor.constraint(equalToConstant: 40),
         ])
     }
 
     @objc private func rightButtonItemTapped() {
 
+    }
+
+    @objc private func maleButtonTapped() {
+        maleButoon.setTitleColor(.white, for: .normal)
+        maleButoon.backgroundColor = .systemBlue
+    }
+
+    @objc private func femaleButtonTapped() {
+        femaleButoon.setTitleColor(.white, for: .normal)
+        femaleButoon.backgroundColor = .systemRed
+    }
+
+    @objc private func backButtonTapped() {
+        navigationController?.popViewController(animated: true)
     }
 }

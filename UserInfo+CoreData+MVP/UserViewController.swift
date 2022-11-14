@@ -36,6 +36,7 @@ class UserViewController: UIViewController {
         tableView.backgroundColor = .systemGray6
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         tableView.dataSource = self
+        tableView.delegate = self
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
@@ -116,3 +117,13 @@ extension UserViewController: UITableViewDataSource {
         }
     }
 }
+
+extension UserViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let viewController = DetailViewController()
+        tableView.deselectRow(at: indexPath, animated: true)
+        navigationController?.pushViewController(viewController, animated: true)
+    }
+}
+
+
