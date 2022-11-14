@@ -55,7 +55,7 @@ class DetailViewController: UIViewController {
             photoUser.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 80),
             photoUser.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             photoUser.widthAnchor.constraint(equalToConstant: 200),
-            photoUser.heightAnchor.constraint(equalToConstant: 200)
+            photoUser.heightAnchor.constraint(equalToConstant: 200),
         ])
     }
 
