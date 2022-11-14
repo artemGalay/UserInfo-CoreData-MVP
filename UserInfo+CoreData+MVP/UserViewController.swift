@@ -9,7 +9,8 @@ import UIKit
 
 class UserViewController: UIViewController {
 
-    var users: [String] = []
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    private var userName = [UserInfo]()
 
     private lazy var userTextField: UITextField = {
         let textField = UITextField()
@@ -47,6 +48,7 @@ class UserViewController: UIViewController {
         setupNavigationController()
         setupHierarchy()
         setupLayout()
+        getUser()
     }
 
     private func setupNavigationController() {
@@ -80,9 +82,47 @@ class UserViewController: UIViewController {
         ])
     }
 
+    //MARK: - Funcs CoreData
+
+    func getUser() {
+        do {
+            userName = try context.fetch(UserInfo.fetchRequest())
+            usersTableView.reloadData()
+        } catch
+            let error {
+            print(error.localizedDescription)
+        }
+    }
+
+    func createUser(name: String) {
+        let newUser = UserInfo(context: context)
+        newUser.fullName = name
+
+        do {
+            try context.save()
+            getUser()
+        } catch
+            let error {
+            print(error.localizedDescription)
+        }
+    }
+
+    func deleteUser(user: UserInfo) {
+        context.delete(user)
+
+        do {
+            try context.save()
+            getUser()
+        } catch
+            let error {
+            print(error.localizedDescription)
+        }
+    }
+
     @objc private func pressButtonTapped() {
         if userTextField.text != "" {
-            users.append(userTextField.text ?? "")
+            guard let text = userTextField.text else { return }
+            createUser(name: text)
         } else {
             let alert = UIAlertController(
                 title: "Nothing was written",
@@ -98,20 +138,23 @@ class UserViewController: UIViewController {
 
 extension UserViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        users.count
+        userName.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let user = userName[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         cell.accessoryType = .disclosureIndicator
-        cell.textLabel?.text = users[indexPath.row]
+        cell.textLabel?.text = user.fullName
         return cell
     }
 
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+
         if editingStyle == .delete {
             tableView.beginUpdates()
-            users.remove(at: indexPath.row)
+            let user = userName[indexPath.row]
+            deleteUser(user: user)
             tableView.deleteRows(at: [indexPath], with: .fade)
             tableView.endUpdates()
         }
@@ -122,6 +165,7 @@ extension UserViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let viewController = DetailViewController()
         tableView.deselectRow(at: indexPath, animated: true)
+        //        viewController.userTextField.text = userName[indexPath.row]
         navigationController?.pushViewController(viewController, animated: true)
     }
 }
