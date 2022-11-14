@@ -9,6 +9,8 @@ import UIKit
 
 class DetailViewController: UIViewController {
 
+    var userInfo = [UserInfo]()
+
     private lazy var editButton: UIButton = {
         let button = UIButton(type: .system)
         button.frame = CGRect(x: 0, y: 0, width: 100, height: 45)
@@ -31,7 +33,7 @@ class DetailViewController: UIViewController {
     private lazy var dateOfBirthIcon = createIcon(systemName: "calendar")
     private lazy var genderIcon = createIcon(systemName: "person.2.circle")
 
-    private lazy var userTextField: UITextField = {
+    lazy var userTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "FullName"
         return textField
