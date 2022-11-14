@@ -13,6 +13,7 @@
 		D9DA2754291FF5960046D4D8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D9DA2753291FF5960046D4D8 /* Assets.xcassets */; };
 		D9DA2757291FF5960046D4D8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D9DA2755291FF5960046D4D8 /* LaunchScreen.storyboard */; };
 		D9DA275F292184600046D4D8 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9DA275E292184600046D4D8 /* DetailViewController.swift */; };
+		D9DA276129224D710046D4D8 /* DetailViewController + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9DA276029224D710046D4D8 /* DetailViewController + Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		D9DA2756291FF5960046D4D8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D9DA2758291FF5960046D4D8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D9DA275E292184600046D4D8 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		D9DA276029224D710046D4D8 /* DetailViewController + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DetailViewController + Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +61,7 @@
 				D9DA2747291FF5950046D4D8 /* AppDelegate.swift */,
 				D9DA274B291FF5950046D4D8 /* UserViewController.swift */,
 				D9DA275E292184600046D4D8 /* DetailViewController.swift */,
+				D9DA276029224D710046D4D8 /* DetailViewController + Extension.swift */,
 				D9DA2753291FF5960046D4D8 /* Assets.xcassets */,
 				D9DA2755291FF5960046D4D8 /* LaunchScreen.storyboard */,
 				D9DA2758291FF5960046D4D8 /* Info.plist */,
@@ -140,6 +143,7 @@
 				D9DA274C291FF5950046D4D8 /* UserViewController.swift in Sources */,
 				D9DA2752291FF5950046D4D8 /* UserInfo_CoreData_MVP.xcdatamodeld in Sources */,
 				D9DA2748291FF5950046D4D8 /* AppDelegate.swift in Sources */,
+				D9DA276129224D710046D4D8 /* DetailViewController + Extension.swift in Sources */,
 				D9DA275F292184600046D4D8 /* DetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -27,6 +27,10 @@ class DetailViewController: UIViewController {
         return imageView
     }()
 
+    private lazy var userIcon = createIcon(systemName: "person")
+    private lazy var dateOfBirthIcon = createIcon(systemName: "calendar")
+    private lazy var genderIcon = createIcon(systemName: "person.2.circle")
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
