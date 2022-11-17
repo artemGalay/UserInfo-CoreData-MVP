@@ -9,7 +9,8 @@ import UIKit
 
 class DetailViewController: UIViewController {
 
-    var userInfo = [UserInfo]()
+    var user: UserInfo?
+    var isEdit = true
 
     private lazy var editButton: UIButton = {
         let button = UIButton(type: .system)
@@ -18,7 +19,7 @@ class DetailViewController: UIViewController {
         button.layer.borderWidth = 2
         button.layer.cornerRadius = 10
         button.layer.borderColor = UIColor.black.cgColor
-        button.addTarget(self, action: #selector(rightButtonItemTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(editButtonTapped), for: .touchUpInside)
         return button
     }()
 
@@ -36,13 +37,14 @@ class DetailViewController: UIViewController {
     lazy var userTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "FullName"
+        textField.isEnabled = false
         return textField
     }()
 
     private lazy var dateOfBirthPicker: UIDatePicker = {
         let datePicker = UIDatePicker()
         datePicker.datePickerMode = .date
-//        datePicker.isEnabled = false
+        datePicker.isEnabled = false
         return datePicker
     }()
 
@@ -52,7 +54,7 @@ class DetailViewController: UIViewController {
         button.setTitleColor(.systemBlue, for: .normal)
         button.backgroundColor = .systemGray6
         button.layer.cornerRadius = 12
-        button.addTarget(self, action: #selector(maleButtonTapped), for: .touchUpInside)
+//        button.addTarget(self, action: #selector(maleButtonTapped), for: .touchUpInside)
         return button
     }()
 
@@ -62,7 +64,7 @@ class DetailViewController: UIViewController {
         button.setTitleColor(.systemRed, for: .normal)
         button.backgroundColor = .systemGray6
         button.layer.cornerRadius = 12
-        button.addTarget(self, action: #selector(femaleButtonTapped), for: .touchUpInside)
+//        button.addTarget(self, action: #selector(femaleButtonTapped), for: .touchUpInside)
         return button
     }()
 
@@ -86,6 +88,11 @@ class DetailViewController: UIViewController {
         setupNavigationBar()
         setupHierarchy()
         setupLayout()
+        // Чтение объекта
+        if let user = user {
+            userTextField.text = user.fullName
+            dateOfBirthPicker.date = user.dateOfBirth ?? Date()
+        }
     }
 
     private func setupNavigationBar() {
@@ -126,21 +133,44 @@ class DetailViewController: UIViewController {
         ])
     }
 
-    @objc private func rightButtonItemTapped() {
+    @objc private func editButtonTapped() {
+        if isEdit {
+            userTextField.isEnabled = true
+            dateOfBirthPicker.isEnabled  = true
+            editButton.setTitle("Save", for: .normal)
+            editButton.setTitleColor(.systemRed, for: .normal)
+            isEdit = false
+        } else if !isEdit {
+            editButton.setTitle("Edit", for: .normal)
+            editButton.setTitleColor(.black, for: .normal)
+            userTextField.isEnabled = false
+            dateOfBirthPicker.isEnabled  = false
+            isEdit = true
+            if user == nil {
+                user = UserInfo()
+            }
 
+            if let user = user {
+                user.fullName = userTextField.text
+                user.dateOfBirth = dateOfBirthPicker.date
+                CoreDataManager.instance.saveContext()
+            }
+        }
     }
 
-    @objc private func maleButtonTapped() {
-        maleButoon.setTitleColor(.white, for: .normal)
-        maleButoon.backgroundColor = .systemBlue
-    }
 
-    @objc private func femaleButtonTapped() {
-        femaleButoon.setTitleColor(.white, for: .normal)
-        femaleButoon.backgroundColor = .systemRed
-    }
-
+    //@objc private func maleButtonTapped() {
+    //    maleButoon.setTitleColor(.white, for: .normal)
+    //    maleButoon.backgroundColor = .systemBlue
+    //}
+    //
+    //@objc private func femaleButtonTapped() {
+    //    femaleButoon.setTitleColor(.white, for: .normal)
+    //    femaleButoon.backgroundColor = .systemRed
+    //}
+    //
     @objc private func backButtonTapped() {
         navigationController?.popViewController(animated: true)
     }
 }
+
