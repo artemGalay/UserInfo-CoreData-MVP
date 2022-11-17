@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		D980423D2926C673002B126E /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D980423C2926C673002B126E /* CoreDataManager.swift */; };
+		D98042492926E68B002B126E /* UserPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98042482926E68B002B126E /* UserPresenter.swift */; };
+		D980424B2926E69C002B126E /* DetailPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D980424A2926E69C002B126E /* DetailPresenter.swift */; };
 		D9DA2748291FF5950046D4D8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9DA2747291FF5950046D4D8 /* AppDelegate.swift */; };
 		D9DA274C291FF5950046D4D8 /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9DA274B291FF5950046D4D8 /* UserViewController.swift */; };
 		D9DA2752291FF5950046D4D8 /* UserInfo_CoreData_MVP.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D9DA2750291FF5950046D4D8 /* UserInfo_CoreData_MVP.xcdatamodeld */; };
@@ -21,6 +23,8 @@
 
 /* Begin PBXFileReference section */
 		D980423C2926C673002B126E /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		D98042482926E68B002B126E /* UserPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPresenter.swift; sourceTree = "<group>"; };
+		D980424A2926E69C002B126E /* DetailPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPresenter.swift; sourceTree = "<group>"; };
 		D9DA2744291FF5950046D4D8 /* UserInfo+CoreData+MVP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "UserInfo+CoreData+MVP.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9DA2747291FF5950046D4D8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D9DA274B291FF5950046D4D8 /* UserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
@@ -54,6 +58,92 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		D980423E2926DEA6002B126E /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				D980423B2926C660002B126E /* Model */,
+				D98042422926E5F1002B126E /* UserModule */,
+				D98042432926E601002B126E /* DetailModule */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		D980423F2926DECB002B126E /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				D98042402926DED7002B126E /* UIKit + Extensions */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		D98042402926DED7002B126E /* UIKit + Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				D9DA276029224D710046D4D8 /* DetailViewController + Extension.swift */,
+			);
+			path = "UIKit + Extensions";
+			sourceTree = "<group>";
+		};
+		D98042412926DEF2002B126E /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				D9DA2753291FF5960046D4D8 /* Assets.xcassets */,
+				D9DA2755291FF5960046D4D8 /* LaunchScreen.storyboard */,
+				D9DA2758291FF5960046D4D8 /* Info.plist */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		D98042422926E5F1002B126E /* UserModule */ = {
+			isa = PBXGroup;
+			children = (
+				D98042442926E654002B126E /* View */,
+				D98042452926E65A002B126E /* Presenter */,
+			);
+			path = UserModule;
+			sourceTree = "<group>";
+		};
+		D98042432926E601002B126E /* DetailModule */ = {
+			isa = PBXGroup;
+			children = (
+				D98042462926E669002B126E /* View */,
+				D98042472926E66F002B126E /* Presenter */,
+			);
+			path = DetailModule;
+			sourceTree = "<group>";
+		};
+		D98042442926E654002B126E /* View */ = {
+			isa = PBXGroup;
+			children = (
+				D9DA274B291FF5950046D4D8 /* UserViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		D98042452926E65A002B126E /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				D98042482926E68B002B126E /* UserPresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		D98042462926E669002B126E /* View */ = {
+			isa = PBXGroup;
+			children = (
+				D9DA275E292184600046D4D8 /* DetailViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		D98042472926E66F002B126E /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				D980424A2926E69C002B126E /* DetailPresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
 		D9DA273B291FF5950046D4D8 = {
 			isa = PBXGroup;
 			children = (
@@ -75,13 +165,9 @@
 			children = (
 				D9DA27672922D50A0046D4D8 /* App */,
 				D9DA27662922D32B0046D4D8 /* UserInfo */,
-				D980423B2926C660002B126E /* Model */,
-				D9DA274B291FF5950046D4D8 /* UserViewController.swift */,
-				D9DA275E292184600046D4D8 /* DetailViewController.swift */,
-				D9DA276029224D710046D4D8 /* DetailViewController + Extension.swift */,
-				D9DA2753291FF5960046D4D8 /* Assets.xcassets */,
-				D9DA2755291FF5960046D4D8 /* LaunchScreen.storyboard */,
-				D9DA2758291FF5960046D4D8 /* Info.plist */,
+				D980423E2926DEA6002B126E /* Sources */,
+				D980423F2926DECB002B126E /* Extensions */,
+				D98042412926DEF2002B126E /* Resources */,
 			);
 			path = "UserInfo+CoreData+MVP";
 			sourceTree = "<group>";
@@ -176,6 +262,8 @@
 				D9DA274C291FF5950046D4D8 /* UserViewController.swift in Sources */,
 				D9DA2752291FF5950046D4D8 /* UserInfo_CoreData_MVP.xcdatamodeld in Sources */,
 				D9DA27652922D2F20046D4D8 /* UserInfo+CoreDataProperties.swift in Sources */,
+				D980424B2926E69C002B126E /* DetailPresenter.swift in Sources */,
+				D98042492926E68B002B126E /* UserPresenter.swift in Sources */,
 				D9DA27642922D2F20046D4D8 /* UserInfo+CoreDataClass.swift in Sources */,
 				D9DA2748291FF5950046D4D8 /* AppDelegate.swift in Sources */,
 				D9DA276129224D710046D4D8 /* DetailViewController + Extension.swift in Sources */,
@@ -321,7 +409,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 76N9URDUCT;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "UserInfo+CoreData+MVP/Info.plist";
+				INFOPLIST_FILE = "UserInfo+CoreData+MVP/Resources/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
@@ -349,7 +437,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 76N9URDUCT;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "UserInfo+CoreData+MVP/Info.plist";
+				INFOPLIST_FILE = "UserInfo+CoreData+MVP/Resources/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";

@@ -21,7 +21,7 @@ class CoreDataManager {
     // Описание сущности
 
     func entityForName(entityName: String) -> NSEntityDescription {
-        NSEntityDescription.entity(forEntityName: entityName, in: context)!
+        NSEntityDescription.entity(forEntityName: entityName, in: context) ?? NSEntityDescription()
     }
 
     func fetchResultController(entityName: String, sortName: String) -> NSFetchedResultsController<NSFetchRequestResult> {
