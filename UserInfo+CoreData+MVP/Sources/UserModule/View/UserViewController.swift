@@ -10,9 +10,13 @@ import CoreData
 
 class UserViewController: UIViewController {
 
+    //MARK: - Property
+
     var user: UserInfo?
 
     var fetchResultController = CoreDataManager.instance.fetchResultController(entityName: Constants.entity, sortName: Constants.sortName)
+
+    // MARK: - UIElements
 
     private lazy var userTextField: UITextField = {
         let textField = UITextField()
@@ -34,7 +38,7 @@ class UserViewController: UIViewController {
         return button
     }()
 
-    lazy var usersTableView: UITableView = {
+    private lazy var usersTableView: UITableView = {
         let tableView = UITableView(frame: CGRect.zero, style: .insetGrouped)
         tableView.backgroundColor = .systemGray6
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
@@ -43,6 +47,8 @@ class UserViewController: UIViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
+
+    // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,6 +57,12 @@ class UserViewController: UIViewController {
         setupNavigationController()
         setupHierarchy()
         setupLayout()
+        perform()
+    }
+
+    // MARK: - Setups
+
+    private func perform() {
         do {
             try fetchResultController.performFetch()
         } catch {
@@ -91,7 +103,6 @@ class UserViewController: UIViewController {
 
     //MARK: - Funcs CoreData
 
-
     @objc private func pressButtonTapped() {
         if userTextField.text != "" {
             guard let text = userTextField.text else { return }
@@ -120,6 +131,8 @@ class UserViewController: UIViewController {
     }
 }
 
+// MARK: - UITableViewDataSource
+
 extension UserViewController: UITableViewDataSource {
 
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -136,31 +149,35 @@ extension UserViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cell, for: indexPath)
-        let user = fetchResultController.object(at: indexPath) as! UserInfo
+        let user = fetchResultController.object(at: indexPath) as? UserInfo
         cell.accessoryType = .disclosureIndicator
-        cell.textLabel?.text = user.fullName
+        cell.textLabel?.text = user?.fullName
         return cell
     }
 
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
 
         if editingStyle == .delete {
-            let user = fetchResultController.object(at: indexPath) as! UserInfo
+            let user = fetchResultController.object(at: indexPath) as? UserInfo ?? UserInfo()
             CoreDataManager.instance.context.delete(user)
             CoreDataManager.instance.saveContext()
         }
     }
 }
 
+// MARK: - UITableViewDelegate
+
 extension UserViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let viewController = DetailViewController()
         tableView.deselectRow(at: indexPath, animated: true)
-        let user = fetchResultController.object(at: indexPath) as! UserInfo
+        let user = fetchResultController.object(at: indexPath) as? UserInfo
         viewController.user = user
         navigationController?.pushViewController(viewController, animated: true)
     }
 }
+
+// MARK: - NSFetchedResultsControllerDelegate
 
 extension UserViewController: NSFetchedResultsControllerDelegate {
 
@@ -177,9 +194,9 @@ extension UserViewController: NSFetchedResultsControllerDelegate {
             }
         case .update:
             if let indexPath = indexPath {
-                let user = fetchResultController.object(at: indexPath) as! UserInfo
+                let user = fetchResultController.object(at: indexPath) as? UserInfo
                 let cell = usersTableView.cellForRow(at: indexPath)
-                cell?.textLabel?.text = user.fullName
+                cell?.textLabel?.text = user?.fullName
             }
         case .move:
             if let indexPath = indexPath {
@@ -202,6 +219,8 @@ extension UserViewController: NSFetchedResultsControllerDelegate {
         usersTableView.endUpdates()
     }
 }
+
+// MARK: - Constants
 
 extension UserViewController {
     struct Constants {

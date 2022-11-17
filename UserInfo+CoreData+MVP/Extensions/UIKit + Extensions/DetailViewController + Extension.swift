@@ -17,8 +17,9 @@ extension DetailViewController {
         return imageView
     }
 
-    func createStackView(arrangeSubviews: [UIView], axis: NSLayoutConstraint.Axis, spacing: CGFloat, distribution: UIStackView.Distribution) -> UIStackView {
+    func createStackView(arrangeSubviews: [UIView], aligment: UIStackView.Alignment, axis: NSLayoutConstraint.Axis, spacing: CGFloat, distribution: UIStackView.Distribution) -> UIStackView {
         let stackView = UIStackView(arrangedSubviews: arrangeSubviews)
+        stackView.alignment = aligment
         stackView.axis = axis
         stackView.spacing = spacing
         stackView.distribution = distribution

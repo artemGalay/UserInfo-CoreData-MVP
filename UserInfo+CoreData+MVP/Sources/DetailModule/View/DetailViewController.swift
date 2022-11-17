@@ -9,8 +9,13 @@ import UIKit
 
 class DetailViewController: UIViewController {
 
+    //MARK: - Property
+
     var user: UserInfo?
+    let gender = ["Мужской", "Женский"]
     var isEdit = true
+
+    // MARK: - UIElements
 
     private lazy var editButton: UIButton = {
         let button = UIButton(type: .system)
@@ -34,53 +39,42 @@ class DetailViewController: UIViewController {
     private lazy var dateOfBirthIcon = createIcon(systemName: "calendar")
     private lazy var genderIcon = createIcon(systemName: "person.2.circle")
 
-    lazy var userTextField: UITextField = {
+    private lazy var userTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "FullName"
         textField.isEnabled = false
         return textField
     }()
 
-    private lazy var dateOfBirthPicker: UIDatePicker = {
+    private let dateOfBirthPicker: UIDatePicker = {
         let datePicker = UIDatePicker()
         datePicker.datePickerMode = .date
         datePicker.isEnabled = false
         return datePicker
     }()
 
-    private lazy var maleButoon: UIButton = {
-        let button = UIButton()
-        button.setTitle("Male", for: .normal)
-        button.setTitleColor(.systemBlue, for: .normal)
-        button.backgroundColor = .systemGray6
-        button.layer.cornerRadius = 12
-//        button.addTarget(self, action: #selector(maleButtonTapped), for: .touchUpInside)
-        return button
+    private lazy var genderTextField: UITextField = {
+        let textField = UITextField()
+        textField.placeholder = "Выберите пол"
+        textField.inputView = pickerView
+        textField.isEnabled = false
+        return textField
     }()
 
-    private lazy var femaleButoon: UIButton = {
-        let button = UIButton()
-        button.setTitle("Female", for: .normal)
-        button.setTitleColor(.systemRed, for: .normal)
-        button.backgroundColor = .systemGray6
-        button.layer.cornerRadius = 12
-//        button.addTarget(self, action: #selector(femaleButtonTapped), for: .touchUpInside)
-        return button
-    }()
+    private let pickerView = UIPickerView()
 
-    private lazy var userNameStackView = createStackView(arrangeSubviews: [userIcon, userTextField],
-                                                         axis: .horizontal,
-                                                         spacing: 10,
-                                                         distribution: .fillProportionally)
-    private lazy var dateOfBirthStackView = createStackView(arrangeSubviews: [dateOfBirthIcon, dateOfBirthPicker],
-                                                            axis: .horizontal,
-                                                            spacing: 0,
-                                                            distribution: .fillProportionally)
+    private lazy var iconsStackView = createStackView(arrangeSubviews: [userIcon, dateOfBirthIcon, genderIcon],
+                                                      aligment: .fill,
+                                                      axis: .vertical,
+                                                      spacing: 10,
+                                                      distribution: .fillProportionally)
+    private lazy var infoStackView = createStackView(arrangeSubviews: [userTextField, dateOfBirthPicker, genderTextField],
+                                                     aligment: .fill,
+                                                     axis: .vertical,
+                                                     spacing: 8,
+                                                     distribution: .fillProportionally)
 
-    private lazy var genderStackView = createStackView(arrangeSubviews: [genderIcon, maleButoon, femaleButoon],
-                                                       axis: .horizontal,
-                                                       spacing: 110,
-                                                       distribution: .fillEqually)
+    // MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -88,11 +82,23 @@ class DetailViewController: UIViewController {
         setupNavigationBar()
         setupHierarchy()
         setupLayout()
-        // Чтение объекта
+        pickerViewConfigure()
+        readUser()
+    }
+
+    // MARK: - Setups
+
+    private func readUser() {
         if let user = user {
             userTextField.text = user.fullName
             dateOfBirthPicker.date = user.dateOfBirth ?? Date()
+            genderTextField.text = user.gender
         }
+    }
+
+    private func pickerViewConfigure() {
+        pickerView.delegate = self
+        pickerView.dataSource = self
     }
 
     private func setupNavigationBar() {
@@ -104,9 +110,8 @@ class DetailViewController: UIViewController {
 
     private func setupHierarchy() {
         view.addSubview(photoUser)
-        view.addSubview(userNameStackView)
-        view.addSubview(dateOfBirthStackView)
-        view.addSubview(genderStackView)
+        view.addSubview(iconsStackView)
+        view.addSubview(infoStackView)
     }
 
     private func setupLayout() {
@@ -116,20 +121,15 @@ class DetailViewController: UIViewController {
             photoUser.widthAnchor.constraint(equalToConstant: 200),
             photoUser.heightAnchor.constraint(equalToConstant: 200),
 
-            userNameStackView.topAnchor.constraint(equalTo: photoUser.bottomAnchor, constant: 20),
-            userNameStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
-            userNameStackView.widthAnchor.constraint(equalToConstant: 250),
-            userNameStackView.heightAnchor.constraint(equalToConstant: 40),
+            iconsStackView.topAnchor.constraint(equalTo: photoUser.bottomAnchor, constant: 20),
+            iconsStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
+            iconsStackView.widthAnchor.constraint(equalToConstant: 45),
+            iconsStackView.heightAnchor.constraint(equalToConstant: 130),
 
-            dateOfBirthStackView.topAnchor.constraint(equalTo: userNameStackView.bottomAnchor, constant: 20),
-            dateOfBirthStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
-            dateOfBirthStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
-            dateOfBirthStackView.heightAnchor.constraint(equalToConstant: 40),
-
-            genderStackView.topAnchor.constraint(equalTo: dateOfBirthStackView.bottomAnchor, constant: 20),
-            genderStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
-            genderStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
-            genderStackView.heightAnchor.constraint(equalToConstant: 40),
+            infoStackView.topAnchor.constraint(equalTo: photoUser.bottomAnchor, constant: 20),
+            infoStackView.leadingAnchor.constraint(equalTo: iconsStackView.trailingAnchor, constant: 10),
+            infoStackView.heightAnchor.constraint(equalToConstant: 120),
+            infoStackView.widthAnchor.constraint(equalToConstant: 300)
         ])
     }
 
@@ -137,6 +137,7 @@ class DetailViewController: UIViewController {
         if isEdit {
             userTextField.isEnabled = true
             dateOfBirthPicker.isEnabled  = true
+            genderTextField.isEnabled = true
             editButton.setTitle("Save", for: .normal)
             editButton.setTitleColor(.systemRed, for: .normal)
             isEdit = false
@@ -145,32 +146,46 @@ class DetailViewController: UIViewController {
             editButton.setTitleColor(.black, for: .normal)
             userTextField.isEnabled = false
             dateOfBirthPicker.isEnabled  = false
+            genderTextField.isEnabled = false
             isEdit = true
             if user == nil {
                 user = UserInfo()
             }
-
             if let user = user {
                 user.fullName = userTextField.text
                 user.dateOfBirth = dateOfBirthPicker.date
+                user.gender = genderTextField.text
                 CoreDataManager.instance.saveContext()
             }
         }
     }
 
-
-    //@objc private func maleButtonTapped() {
-    //    maleButoon.setTitleColor(.white, for: .normal)
-    //    maleButoon.backgroundColor = .systemBlue
-    //}
-    //
-    //@objc private func femaleButtonTapped() {
-    //    femaleButoon.setTitleColor(.white, for: .normal)
-    //    femaleButoon.backgroundColor = .systemRed
-    //}
-    //
     @objc private func backButtonTapped() {
         navigationController?.popViewController(animated: true)
     }
 }
 
+// MARK: - UIPickerViewDataSource
+
+extension DetailViewController: UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        1
+    }
+
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        gender.count
+    }
+}
+
+// MARK: - UIPickerViewDelegate
+
+extension DetailViewController: UIPickerViewDelegate {
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        gender[row]
+    }
+
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        genderTextField.text = gender[row]
+        genderTextField.resignFirstResponder()
+    }
+}
