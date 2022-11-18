@@ -24,5 +24,4 @@ extension UserInfo {
 }
 
 extension UserInfo : Identifiable {
-
 }

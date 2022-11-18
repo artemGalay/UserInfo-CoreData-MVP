@@ -17,7 +17,7 @@ protocol UserPresenterProtocol: AnyObject {
 
 final class UserPresenter: NSObject, UserPresenterProtocol {
 
-    //MARK: - Property
+    // MARK: - Property
 
     private weak var view: UserViewProtocol?
     var user: UserInfo?
@@ -31,7 +31,7 @@ final class UserPresenter: NSObject, UserPresenterProtocol {
         self.view = view
     }
 
-    //MARK: - Funcs
+    // MARK: - Funcs
 
     func perform() {
         do {

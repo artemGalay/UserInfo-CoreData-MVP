@@ -14,11 +14,13 @@ class CoreDataManager {
 
     private init() {}
 
+    // MARK: - Property
+
     lazy var context: NSManagedObjectContext = {
         persistentContainer.viewContext
     }()
 
-    // Описание сущности
+    // MARK: - Funcs
 
     func entityForName(entityName: String) -> NSEntityDescription {
         NSEntityDescription.entity(forEntityName: entityName, in: context) ?? NSEntityDescription()
@@ -34,8 +36,6 @@ class CoreDataManager {
                                                                  cacheName: nil)
         return fetchedResultController
     }
-
-
 
     // MARK: - Core Data stack
 

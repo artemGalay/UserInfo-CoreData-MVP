@@ -14,7 +14,7 @@ protocol UserViewProtocol: AnyObject {
 
 final class UserViewController: UIViewController, UserViewProtocol {
 
-    //MARK: - Property
+    // MARK: - Property
 
     private var presenter: UserPresenterProtocol?
 

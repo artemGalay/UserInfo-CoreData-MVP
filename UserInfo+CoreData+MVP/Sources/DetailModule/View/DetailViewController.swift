@@ -16,7 +16,7 @@ protocol DetailViewProtocol: AnyObject {
 
 final class DetailViewController: UIViewController, DetailViewProtocol {
 
-    //MARK: - Property
+    // MARK: - Property
 
     var presenter: DetailPresenterProtocol?
 
