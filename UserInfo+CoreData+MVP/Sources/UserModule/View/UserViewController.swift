@@ -6,19 +6,21 @@
 //
 
 import UIKit
-import CoreData
 
-class UserViewController: UIViewController {
+protocol UserViewProtocol: AnyObject {
+    var usersTableView: UITableView { get set }
+    var userTextField: UITextField { get set }
+}
+
+final class UserViewController: UIViewController, UserViewProtocol {
 
     //MARK: - Property
 
-    var user: UserInfo?
-
-    var fetchResultController = CoreDataManager.instance.fetchResultController(entityName: Constants.entity, sortName: Constants.sortName)
+    private var presenter: UserPresenterProtocol?
 
     // MARK: - UIElements
 
-    private lazy var userTextField: UITextField = {
+    lazy var userTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "Print your name here"
         textField.backgroundColor = .systemGray6
@@ -38,10 +40,10 @@ class UserViewController: UIViewController {
         return button
     }()
 
-    private lazy var usersTableView: UITableView = {
+    lazy var usersTableView: UITableView = {
         let tableView = UITableView(frame: CGRect.zero, style: .insetGrouped)
         tableView.backgroundColor = .systemGray6
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: Constants.cell)
         tableView.dataSource = self
         tableView.delegate = self
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -49,31 +51,31 @@ class UserViewController: UIViewController {
     }()
 
     // MARK: - Lifecycle
-    
+
+    init() {
+        super.init(nibName: nil, bundle: nil)
+        self.presenter = UserPresenter(view: self)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        fetchResultController.delegate = self
         setupNavigationController()
         setupHierarchy()
         setupLayout()
-        perform()
+        presenter?.perform()
     }
 
     // MARK: - Setups
 
-    private func perform() {
-        do {
-            try fetchResultController.performFetch()
-        } catch {
-            print(error)
-        }
-    }
-
     private func setupNavigationController() {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .always
-        navigationItem.title = "Users"
+        navigationItem.title = Constants.title
     }
 
     private func setupHierarchy() {
@@ -85,49 +87,24 @@ class UserViewController: UIViewController {
     private func setupLayout() {
         NSLayoutConstraint.activate([
             userTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            userTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            userTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            userTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Metric.offset),
+            userTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Metric.offset),
             userTextField.heightAnchor.constraint(equalToConstant: 50),
 
-            pressButton.topAnchor.constraint(equalTo: userTextField.bottomAnchor, constant: 20),
-            pressButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            pressButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            pressButton.heightAnchor.constraint(equalToConstant: 50),
+            pressButton.topAnchor.constraint(equalTo: userTextField.bottomAnchor, constant: Metric.offset),
+            pressButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Metric.offset),
+            pressButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Metric.offset),
+            pressButton.heightAnchor.constraint(equalToConstant: Metric.pressButtonHeightOffset),
 
-            usersTableView.topAnchor.constraint(equalTo: pressButton.bottomAnchor, constant: 20),
+            usersTableView.topAnchor.constraint(equalTo: pressButton.bottomAnchor, constant: Metric.offset),
             usersTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             usersTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             usersTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
 
-    //MARK: - Funcs CoreData
-
     @objc private func pressButtonTapped() {
-        if userTextField.text != "" {
-            guard let text = userTextField.text else { return }
-            // Создаем объект
-            if user == nil {
-                user = UserInfo()
-            }
-
-            if let user = user {
-                user.fullName = text
-                CoreDataManager.instance.saveContext()
-                userTextField.text = nil
-                userTextField.becomeFirstResponder()
-                self.user = nil
-            }
-        } else {
-            let alert = UIAlertController(
-                title: "Nothing was written",
-                message: "Please enter the name",
-                preferredStyle: .alert)
-
-            alert.addAction(UIAlertAction(title: "OK", style: .cancel))
-            self.present(alert, animated: true)
-        }
-        usersTableView.reloadData()
+        presenter?.addUser()
     }
 }
 
@@ -136,11 +113,11 @@ class UserViewController: UIViewController {
 extension UserViewController: UITableViewDataSource {
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        fetchResultController.sections?.count ?? 0
+        presenter?.fetchResultController.sections?.count ?? 0
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let sections = fetchResultController.sections {
+        if let sections = presenter?.fetchResultController.sections {
             return sections[section].numberOfObjects
         } else {
             return 0
@@ -149,7 +126,7 @@ extension UserViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cell, for: indexPath)
-        let user = fetchResultController.object(at: indexPath) as? UserInfo
+        let user = presenter?.fetchResultController.object(at: indexPath) as? UserInfo
         cell.accessoryType = .disclosureIndicator
         cell.textLabel?.text = user?.fullName
         return cell
@@ -158,7 +135,7 @@ extension UserViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
 
         if editingStyle == .delete {
-            let user = fetchResultController.object(at: indexPath) as? UserInfo ?? UserInfo()
+            let user = presenter?.fetchResultController.object(at: indexPath) as? UserInfo ?? UserInfo()
             CoreDataManager.instance.context.delete(user)
             CoreDataManager.instance.saveContext()
         }
@@ -168,64 +145,29 @@ extension UserViewController: UITableViewDataSource {
 // MARK: - UITableViewDelegate
 
 extension UserViewController: UITableViewDelegate {
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let viewController = DetailViewController()
+        let presenterDetail = DetailPresenter()
+        let viewController = DetailViewController(presenter: presenterDetail)
+        presenterDetail.view = viewController
         tableView.deselectRow(at: indexPath, animated: true)
-        let user = fetchResultController.object(at: indexPath) as? UserInfo
-        viewController.user = user
+        let user = presenter?.fetchResultController.object(at: indexPath) as? UserInfo
+        viewController.presenter?.user = user
         navigationController?.pushViewController(viewController, animated: true)
-    }
-}
-
-// MARK: - NSFetchedResultsControllerDelegate
-
-extension UserViewController: NSFetchedResultsControllerDelegate {
-
-    // Информирует о начале изменения данных
-    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        usersTableView.beginUpdates()
-    }
-
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        switch type {
-        case .insert:
-            if let indexPath = newIndexPath {
-                usersTableView.insertRows(at: [indexPath], with: .automatic)
-            }
-        case .update:
-            if let indexPath = indexPath {
-                let user = fetchResultController.object(at: indexPath) as? UserInfo
-                let cell = usersTableView.cellForRow(at: indexPath)
-                cell?.textLabel?.text = user?.fullName
-            }
-        case .move:
-            if let indexPath = indexPath {
-                usersTableView.deleteRows(at: [indexPath], with: .automatic)
-            }
-            if let indexPath = newIndexPath {
-                usersTableView.insertRows(at: [indexPath], with: .automatic)
-            }
-        case .delete:
-            if let indexPath = indexPath {
-                usersTableView.deleteRows(at: [indexPath], with: .automatic)
-            }
-        default:
-            break
-        }
-    }
-
-    // Информирует о окончании изменении данных
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        usersTableView.endUpdates()
     }
 }
 
 // MARK: - Constants
 
 extension UserViewController {
+
     struct Constants {
-        static let entity = "UserInfo"
-        static let sortName = "fullName"
         static let cell = "cell"
+        static let title = "Users"
+    }
+
+    struct Metric {
+        static let offset: CGFloat = 20
+        static let pressButtonHeightOffset: CGFloat = 50
     }
 }
