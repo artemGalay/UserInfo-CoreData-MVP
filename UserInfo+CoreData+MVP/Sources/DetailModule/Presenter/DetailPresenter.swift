@@ -18,14 +18,14 @@ protocol DetailPresenterProtocol: AnyObject {
 
 final class DetailPresenter: DetailPresenterProtocol {
 
-    //MARK: - Property
+    // MARK: - Property
 
     weak var view: DetailViewProtocol?
     var gender = [Constant.genderMan, Constant.genderWoman]
     var isEdit = true
     var user: UserInfo?
 
-    //MARK: - Funcs
+    // MARK: - Funcs
 
     func readUser() {
         if let user = user {

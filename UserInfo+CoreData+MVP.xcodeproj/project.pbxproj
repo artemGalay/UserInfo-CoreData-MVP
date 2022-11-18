@@ -49,19 +49,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		D980423B2926C660002B126E /* Model */ = {
+		D980423B2926C660002B126E /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
 				D980423C2926C673002B126E /* CoreDataManager.swift */,
 				D9DA2750291FF5950046D4D8 /* UserInfo_CoreData_MVP.xcdatamodeld */,
+				D9DA27662922D32B0046D4D8 /* Model */,
 			);
-			path = Model;
+			path = CoreData;
 			sourceTree = "<group>";
 		};
 		D980423E2926DEA6002B126E /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				D980423B2926C660002B126E /* Model */,
+				D980423B2926C660002B126E /* CoreData */,
 				D98042422926E5F1002B126E /* UserModule */,
 				D98042432926E601002B126E /* DetailModule */,
 			);
@@ -164,21 +165,20 @@
 			isa = PBXGroup;
 			children = (
 				D9DA27672922D50A0046D4D8 /* App */,
-				D9DA27662922D32B0046D4D8 /* UserInfo */,
 				D980423E2926DEA6002B126E /* Sources */,
-				D980423F2926DECB002B126E /* Extensions */,
 				D98042412926DEF2002B126E /* Resources */,
+				D980423F2926DECB002B126E /* Extensions */,
 			);
 			path = "UserInfo+CoreData+MVP";
 			sourceTree = "<group>";
 		};
-		D9DA27662922D32B0046D4D8 /* UserInfo */ = {
+		D9DA27662922D32B0046D4D8 /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				D9DA27622922D2F20046D4D8 /* UserInfo+CoreDataClass.swift */,
 				D9DA27632922D2F20046D4D8 /* UserInfo+CoreDataProperties.swift */,
 			);
-			path = UserInfo;
+			path = Model;
 			sourceTree = "<group>";
 		};
 		D9DA27672922D50A0046D4D8 /* App */ = {
