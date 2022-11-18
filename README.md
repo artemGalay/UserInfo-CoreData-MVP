@@ -4,6 +4,7 @@ The project contains two screens
 ## Technology stack
 * UIKit
 * MVP
+* CoreData
 
 ## Gif
 ![user coreData gif](UserInfo+CoreData+MVP/Resources/Assets.xcassets/UsersCoredataGif.dataset/UsersCoredataGif.gif)
